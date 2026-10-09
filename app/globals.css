@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #fafaf7;
+  --ink: #0e1116;
+  --muted: #565c68;
+  --line: #e4e2db;
+  --card: #ffffff;
+  --blueprint: #1f4fd1;
+  --blueprint-soft: #e8eefc;
+  --pass: #1d7a4a;
+
+  /* House palette — terracotta/brick only appears on the house */
+  --ruin-fill: #dcdad4;
+  --ruin-stroke: #8a8780;
+  --ruin-dark: #a29e96;
+  --concrete: #cbc6bc;
+  --timber: #c9a06b;
+  --brick: #b5553a;
+  --brick-light: #c86e4f;
+  --slate: #3e4553;
+  --slate-light: #59627a;
+  --glass: #f6d98f;
+  --door: #2e5e6e;
+  --trim: #f5efe3;
+  --leaf: #6f9461;
+  --leaf-dark: #4f7446;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --color-blueprint: var(--blueprint);
+  --color-blueprint-soft: var(--blueprint-soft);
+  --color-pass: var(--pass);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blueprint);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Character walk cycle: legs swing from the hip */
+.leg {
+  transform-box: fill-box;
+}
+.leg-l {
+  transform-origin: 100% 0%;
+}
+.leg-r {
+  transform-origin: 0% 0%;
+}
+.walking .leg-l {
+  animation: swing 0.45s ease-in-out infinite alternate;
+}
+.walking .leg-r {
+  animation: swing 0.45s ease-in-out infinite alternate-reverse;
+}
+@keyframes swing {
+  from { transform: rotate(-11deg); }
+  to { transform: rotate(11deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ───────── Shared theme (portfolio + How Toorak Works) ───────── */
+.theme {
+  --blueprint: #2f5bea;
+  --blueprint-soft: #eaf0fe;
+  --muted: #6b7280;
+  --pass: #2e7d5b;
+  --pass-soft: #e9f4ee;
+  --warn: #b7791f;
+  --warn-ink: #8a5a12;
+  --warn-soft: #fbf3e4;
+  --fail: #b42318;
+  --fail-soft: #fdeceb;
+  --brick: #c2643c;
+  --scene: #f4f3ee;
+}
+
+@theme inline {
+  --color-pass-soft: var(--pass-soft);
+  --color-warn: var(--warn);
+  --color-warn-ink: var(--warn-ink);
+  --color-warn-soft: var(--warn-soft);
+  --color-fail: var(--fail);
+  --color-fail-soft: var(--fail-soft);
+  --color-scene: var(--scene);
+}
+
+
+/* ───────── Portfolio: opening ───────── */
+
+html[data-intro-seen] .opening {
+  display: none;
+}
+
+.caret {
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.glitch-slice {
+  animation: glitch-shift 0.18s steps(2) infinite;
+}
+@keyframes glitch-shift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-14px);
+  }
+  50% {
+    transform: translateX(9px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+.frame-skip {
+  animation: frame-skip 0.27s steps(1) 2;
+}
+@keyframes frame-skip {
+  0%,
+  40%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening {
+    display: none;
+  }
+  .hero-mirror {
+    transform: none !important;
+  }
 }
