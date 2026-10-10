@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { projects } from "@/content/portfolio";
+import { projects, type Project } from "@/content/portfolio";
 import { Rise } from "./page-state";
 import { Section } from "./Section";
 
@@ -67,7 +67,44 @@ function LoanShot() {
   );
 }
 
-function AppWindowCard({ p, i }: { p: (typeof projects.items)[number]; i: number }) {
+function RouterShot() {
+  const methods = [
+    { w: "w-7/12", pick: true },
+    { w: "w-9/12" },
+    { w: "w-6/12" },
+  ];
+  return (
+    <div className="flex h-full items-center gap-4 p-5">
+      <div className="w-[38%] space-y-2 rounded-lg border border-line bg-card p-3">
+        <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted">Use case</p>
+        <span className="block h-1.5 w-10/12 rounded-full bg-ink/15" />
+        <span className="block h-1.5 w-8/12 rounded-full bg-ink/10" />
+        <span className="block h-1.5 w-9/12 rounded-full bg-ink/10" />
+      </div>
+      <svg viewBox="0 0 40 100" className="h-28 w-8 shrink-0 text-ink/30" aria-hidden="true">
+        <path d="M0 50C20 50 20 18 40 18M0 50H40M0 50C20 50 20 82 40 82" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M0 50C20 50 20 18 40 18" fill="none" stroke="var(--blueprint)" strokeWidth="1.8" />
+      </svg>
+      <div className="flex-1 space-y-2.5">
+        {methods.map((m, i) => (
+          <div
+            key={i}
+            className={`flex items-center gap-2 rounded-md border px-2.5 py-2 ${m.pick ? "border-blueprint/40 bg-blueprint-soft" : "border-line bg-card"}`}
+          >
+            <span className={`size-2 shrink-0 rounded-full ${m.pick ? "bg-blueprint" : "bg-ink/15"}`} />
+            <span className={`h-1.5 rounded-full ${m.w} ${m.pick ? "bg-blueprint/50" : "bg-ink/10"}`} />
+          </div>
+        ))}
+        <p className="font-mono text-[9px] text-blueprint">✓ Recommended · with reasons</p>
+      </div>
+    </div>
+  );
+}
+
+const SHOTS = { scanfact: ScanFactShot, loan: LoanShot, router: RouterShot } as const;
+
+function AppWindowCard({ p, i }: { p: Project; i: number }) {
+  const Shot = SHOTS[p.shot];
   const links = [
     { label: projects.liveLabel, href: p.live },
     ...(p.github ? [{ label: projects.githubLabel, href: p.github }] : []),
@@ -86,23 +123,27 @@ function AppWindowCard({ p, i }: { p: (typeof projects.items)[number]; i: number
         </div>
         <div className="h-48 overflow-hidden border-b border-line bg-paper/40">
           <div className="h-full transition-transform duration-700 ease-out group-hover:-translate-y-3 motion-reduce:group-hover:translate-y-0">
-            {i === 0 ? <ScanFactShot /> : <LoanShot />}
+            <Shot />
           </div>
         </div>
         <div className="flex flex-1 flex-col px-5 py-5">
           <div className="flex items-baseline justify-between gap-3">
             <h3 className="text-xl font-medium tracking-tight">{p.name}</h3>
-            <p className="font-mono text-[10.5px] text-muted">{p.date}</p>
+            {p.date && <p className="font-mono text-[10.5px] text-muted">{p.date}</p>}
           </div>
           <p className="mt-2 text-[14.5px] leading-relaxed text-muted">{p.pitch}</p>
-          <ul className="mt-4 flex flex-wrap gap-1.5">
-            {p.stack.map((s) => (
-              <li key={s} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-ink/75">
-                {s}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 inline-flex w-fit rounded-md bg-pass-soft px-2.5 py-1 font-mono text-[12px] text-pass">{p.metric}</p>
+          {p.stack && (
+            <ul className="mt-4 flex flex-wrap gap-1.5">
+              {p.stack.map((s) => (
+                <li key={s} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-ink/75">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          )}
+          {p.metric && (
+            <p className="mt-4 inline-flex w-fit rounded-md bg-pass-soft px-2.5 py-1 font-mono text-[12px] text-pass">{p.metric}</p>
+          )}
           {links.length > 0 && (
             <div className="mt-auto flex gap-2 pt-5">
               {links.map((l) =>
@@ -131,7 +172,7 @@ export function Projects() {
         {projects.items.map((p, i) => (
           <AppWindowCard key={p.name} p={p} i={i} />
         ))}
-        <Rise delay={0.16} className="h-full">
+        <Rise delay={0.08 * projects.items.length} className="h-full">
           <div className="flex h-full min-h-60 items-center justify-center rounded-2xl border border-dashed border-ink/20 p-8 text-center">
             <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{projects.next}</p>
           </div>

@@ -185,11 +185,26 @@ export const experience = {
 
 /* ───────── 4 · Projects ───────── */
 
+export type Project = {
+  name: string;
+  date?: string;
+  /** Shown in the card's window bar. */
+  url: string;
+  pitch: string;
+  stack?: string[];
+  metric?: string;
+  live: string;
+  github: string | null;
+  /** Which original illustration to show. */
+  shot: "scanfact" | "loan" | "router";
+};
+
 export const projects = {
   eyebrow: "03 · Projects",
   headline: { pre: "Things I built ", accent: "on my own", post: "." } satisfies Accent,
   items: [
     {
+      shot: "scanfact",
       name: "ScanFact",
       date: "Apr 2026",
       url: "scanfact.vercel.app",
@@ -200,6 +215,7 @@ export const projects = {
       github: "#", // TODO: GitHub URL
     },
     {
+      shot: "loan",
       name: "The Story of a Loan",
       date: "2026",
       url: "/how-toorak-works",
@@ -209,7 +225,16 @@ export const projects = {
       live: "/how-toorak-works",
       github: null,
     },
-  ],
+    {
+      shot: "router",
+      name: "Verification Method Router",
+      url: "bankaccountverification.vercel.app",
+      pitch: "Picks the right bank account verification method for a use case, and explains why.",
+      // TODO: add date, stack and a metric
+      live: "https://bankaccountverification.vercel.app/",
+      github: null, // TODO: GitHub URL
+    },
+  ] satisfies Project[] as Project[],
   next: "Next chapter · coming soon",
   liveLabel: "Live",
   githubLabel: "GitHub",
