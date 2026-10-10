@@ -242,11 +242,22 @@ export const projects = {
 
 /* ───────── 5 · Case studies ───────── */
 
+/** Every card's stats follow one pattern: what was studied → how deep → what was recommended. */
 export const caseStudies = {
   eyebrow: "04 · Case Studies",
   headline: { pre: "Teardowns and ", accent: "strategy", post: " calls." } satisfies Accent,
-  read: "Read",
+  read: "Read the report",
+  pending: "Report coming soon",
   items: [
+    {
+      title: "Namma Yatri vs Rapido",
+      type: "Teardown",
+      date: "Oct 2026",
+      finding:
+        "Two bets on Indian mobility: an open network anyone can plug into versus a platform that controls the whole loop.",
+      stats: ["2 apps compared", "23 journey steps mapped", "4 moves proposed"],
+      href: "/case-studies/namma-yatri-vs-rapido.pdf",
+    },
     {
       title: "CRED Pay adoption",
       type: "Teardown",
@@ -254,15 +265,7 @@ export const caseStudies = {
       finding:
         "Diagnosed why CRED Pay isn’t retaining users, and proposed a fix that leverages CRED’s existing strengths.",
       stats: ["15 user interviews", "5 UPI apps compared", "+15% projected repeat usage"],
-      href: "#", // TODO: case study URL
-    },
-    {
-      title: "Zomato multi-tier city strategy",
-      type: "Strategy",
-      date: "Oct 2025",
-      finding: "Analyzed Zomato’s strategy across city tiers against business metrics and customer satisfaction.",
-      stats: ["3 city tiers", "4 business metrics", "3 growth levers"],
-      href: "#", // TODO: case study URL
+      href: "/case-studies/cred-pay-smart-stack.pdf",
     },
   ],
 };

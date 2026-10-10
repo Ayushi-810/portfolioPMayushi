@@ -21,22 +21,27 @@ export function CaseStudies() {
               </div>
               <h3 className="mt-5 text-2xl font-medium tracking-tight">{c.title}</h3>
               <p className="mt-3 text-[15.5px] leading-relaxed text-muted">{c.finding}</p>
-              <ul className="mt-6 grid grid-cols-3 gap-2">
+              {/* stats + link sit at the bottom so every card lines up */}
+              <div className="mt-auto pt-6">
+              <ul className="grid grid-cols-3 gap-2">
                 {c.stats.map((s) => {
                   const [num, ...rest] = s.split(" ");
                   return (
-                    <li key={s} className="rounded-lg border border-line bg-paper/60 px-3 py-3">
+                    <li key={s} className="min-h-[5.75rem] rounded-lg border border-line bg-paper/60 px-3 py-3">
                       <p className="font-mono text-xl font-medium tracking-tight">{num}</p>
-                      <p className="mt-1 text-[12px] leading-snug text-muted">{rest.join(" ")}</p>
+                      <p className="mt-1 hyphens-auto break-words text-[12px] leading-snug text-muted">{rest.join(" ")}</p>
                     </li>
                   );
                 })}
               </ul>
-              {c.href !== "#" && (
-                <a href={c.href} target="_blank" rel="noreferrer" className="mt-6 inline-flex w-fit items-center gap-1.5 text-[14px] font-medium text-blueprint hover:underline">
+              {c.href !== "#" ? (
+                <a href={c.href} target="_blank" rel="noreferrer" className="mt-5 inline-flex w-fit items-center gap-1.5 text-[14px] font-medium text-blueprint hover:underline">
                   {caseStudies.read} <span aria-hidden="true">→</span>
                 </a>
+              ) : (
+                <p className="mt-5 text-[14px] text-muted">{caseStudies.pending}</p>
               )}
+              </div>
             </article>
           </Rise>
         ))}
